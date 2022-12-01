@@ -1,11 +1,27 @@
 import {useState} from "react"
 
 const Button = ({onClick, body}) => <button onClick={onClick}>{body}</button>
+const All = ({all}) => <div>All {all}</div>
+const Average = ({average}) => <div>Average {average}</div>
+const Positive = ({positive}) => <div>Positive {positive}</div>
+
+const Averages = ({all, average, positive}) => (
+  <>
+    <h2>Averages</h2>
+    <div>
+      <All all={all} value={all} />
+      <Average average={average} />
+      <Positive positive={positive} />
+    </div>
+  </>
+)
+
+const Statistics = ({title, value}) => <div>{title} {value}</div>
 
 const Stats = ({good, bad, neutral}) => {
   const all = good + neutral + bad || 0
-  const average = (good + bad * -1) / all || 0
-  const positive = (all / good) * 100 || 0
+  const average = (good + bad + neutral) / 3 || 0
+  const positive = (good / all) * 100  || 0
 
   if (all === 0 ){
     return(
@@ -15,13 +31,11 @@ const Stats = ({good, bad, neutral}) => {
 
   return(
     <>
-       <h2>Statistics</h2>
-      <h4>Good: {good}</h4>
-      <h4>Neutral: {neutral}</h4>
-      <h4>Bad: {bad}</h4>
-      <h4>All: {all}</h4>
-      <h4>Average: {average}</h4>
-      <h4>Postitive: {positive}</h4>
+      <h2>Statistics</h2>
+      <Statistics value={good} title={"Good"} />
+      <Statistics value={neutral} title={"Neutral"} />
+      <Statistics value={bad} title={"Bad"} />
+      <Averages average={average} all={all} positive={positive}/>
     </>
   )
 }
